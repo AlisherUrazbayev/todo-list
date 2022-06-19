@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import Button from "./components/Button";
 import {FilterValueTypes} from "./App";
-import {v1} from "uuid";
 
 
 type TodoListPropsType = {
@@ -9,7 +8,8 @@ type TodoListPropsType = {
     tasks: Array<TasksTodoListPropsType>
     removeTask: (id: string) => void
     changeFilter: (filter: FilterValueTypes) => void
-    addTask: (newTask: TasksTodoListPropsType) => void
+    addTask: (title: string) => void
+    changeTaskStatus: (status: boolean, id: string) => void
 }
 
 export type TasksTodoListPropsType = {
@@ -23,8 +23,7 @@ const TodoList = (props: TodoListPropsType) => {
     let [taskTitle, setTaskTitle] = useState("");
 
     const addTaskHandler = (title: string) => {
-        const newTask = {id: v1(), title, isDone: false}
-        props.addTask(newTask);
+        props.addTask(title);
         setTaskTitle("");
     }
 
@@ -37,8 +36,12 @@ const TodoList = (props: TodoListPropsType) => {
         props.removeTask(id);
     }
 
-    const changeFilterHandler = (fitler: FilterValueTypes) => {
-        props.changeFilter(fitler);
+    const changeFilterHandler = (filter: FilterValueTypes) => {
+        props.changeFilter(filter);
+    }
+
+    const onChangeCheckboxHandler = (event: ChangeEvent<HTMLInputElement>, id: string) => {
+        props.changeTaskStatus(event.currentTarget.checked, id);
     }
 
     return (
@@ -55,13 +58,13 @@ const TodoList = (props: TodoListPropsType) => {
                 {props.tasks.map(element => {
                     return (
                         <li key={element.id}>
-                            <input type="checkbox" checked={element.isDone}/>
+                            <input type="checkbox" defaultChecked={element.isDone}
+                                   onChange={(event) => onChangeCheckboxHandler(event, element.id)}/>
                             <span>{element.title}</span>
                             <Button name={"Delete"} callback={() => removeTaskHandler(element.id)}/>
                         </li>
                     )
                 })}
-                )
             </ul>
             <div>
                 <Button name={"All"} callback={() => changeFilterHandler("all")}/>
