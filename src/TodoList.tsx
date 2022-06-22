@@ -5,15 +5,16 @@ import {FilterValueTypes} from "./App";
 
 type TodoListPropsType = {
     title?: string | number
-    tasks: Array<TasksTodoListPropsType>
-    removeTask: (id: string) => void
-    changeFilter: (filter: FilterValueTypes) => void
-    addTask: (title: string) => void
-    changeTaskStatus: (status: boolean, id: string) => void
+    tasks: Array<TaskType>
+    removeTask: (id: string, todoList_ID: string) => void
+    changeFilter: (filter: FilterValueTypes, todoList_ID: string) => void
+    addTask: (title: string, todoList_ID: string) => void
+    changeTaskStatus: (status: boolean, id: string, todoList_ID: string) => void
     filter: FilterValueTypes
+    todoList_ID: string
 }
 
-export type TasksTodoListPropsType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -26,7 +27,7 @@ const TodoList = (props: TodoListPropsType) => {
 
     const addTaskHandler = (title: string) => {
         if (title.trim() !== "") {
-            props.addTask(title.trim());
+            props.addTask(title.trim(), props.todoList_ID);
             setTaskTitle("");
         } else {
             setError("Invalid input");
@@ -36,19 +37,19 @@ const TodoList = (props: TodoListPropsType) => {
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
         let taskValue = event.currentTarget.value;
         setTaskTitle(taskValue);
-        setError(null);
+        setError(null)
     }
 
     const removeTaskHandler = (id: string) => {
-        props.removeTask(id);
+        props.removeTask(id, props.todoList_ID);
     }
 
     const changeFilterHandler = (filter: FilterValueTypes) => {
-        props.changeFilter(filter);
+        props.changeFilter(filter, props.todoList_ID);
     }
 
     const onChangeCheckboxHandler = (event: ChangeEvent<HTMLInputElement>, id: string) => {
-        props.changeTaskStatus(event.currentTarget.checked, id);
+        props.changeTaskStatus(event.currentTarget.checked, id, props.todoList_ID);
     }
 
     return (
@@ -58,11 +59,8 @@ const TodoList = (props: TodoListPropsType) => {
                 <input value={taskTitle} onChange={onChangeInputHandler}
                        onKeyDown={(event) => {
                            if (event.key === "Enter") addTaskHandler(taskTitle);
-                       }}
-                       className={error ? "error" : undefined}
-                />
+                       }}/>
                 <Button name={"+"} callback={() => addTaskHandler(taskTitle)}/>
-                {error && <div className="error-message">{error}</div>}
             </div>
             <ul>
                 {props.tasks.map(element => {
