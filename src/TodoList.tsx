@@ -34,6 +34,8 @@ const TodoList = (props: TodoListPropsType) => {
         }
     }
 
+    //some comment here
+
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
         let taskValue = event.currentTarget.value;
         setTaskTitle(taskValue);
