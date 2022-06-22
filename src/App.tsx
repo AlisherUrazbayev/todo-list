@@ -16,6 +16,7 @@ function App() {
 
     let [filter, setFilter] = useState<FilterValueTypes>("all");
     let filteredTasks = tasks;
+    //some comment
 
     if (filter === "active") {
         filteredTasks = tasks.filter(task => !task.isDone)
