@@ -12,6 +12,7 @@ type TodoListPropsType = {
     changeTaskStatus: (status: boolean, id: string, todoList_ID: string) => void
     filter: FilterValueTypes
     todoList_ID: string
+    deleteList: (id: string) => void
 }
 
 export type TaskType = {
@@ -34,8 +35,6 @@ const TodoList = (props: TodoListPropsType) => {
         }
     }
 
-    //some comment here
-
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
         let taskValue = event.currentTarget.value;
         setTaskTitle(taskValue);
@@ -54,8 +53,13 @@ const TodoList = (props: TodoListPropsType) => {
         props.changeTaskStatus(event.currentTarget.checked, id, props.todoList_ID);
     }
 
+    const onDeleteHandler = () => {
+      props.deleteList(props.todoList_ID);
+    }
+
     return (
         <div>
+            <Button name={"Delete list"} callback={onDeleteHandler} />
             <h3>{props.title}</h3>
             <div>
                 <input value={taskTitle} onChange={onChangeInputHandler}
