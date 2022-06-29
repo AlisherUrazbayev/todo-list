@@ -1,10 +1,12 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import Button from "./components/Button";
 import {FilterValueTypes} from "./App";
+import AddItemForm from "./components/AddItemForm";
+import EditableText from "./components/EditableText";
 
 
 type TodoListPropsType = {
-    title?: string | number
+    title: string | number
     tasks: Array<TaskType>
     removeTask: (id: string, todoList_ID: string) => void
     changeFilter: (filter: FilterValueTypes, todoList_ID: string) => void
@@ -13,6 +15,8 @@ type TodoListPropsType = {
     filter: FilterValueTypes
     todoList_ID: string
     deleteList: (id: string) => void
+    changeTaskTitle: (title: string, id: string, todoList_ID: string) => void
+    changeListTitle: (title: string, todoList_ID: string) => void
 }
 
 export type TaskType = {
@@ -22,24 +26,6 @@ export type TaskType = {
 }
 
 const TodoList = (props: TodoListPropsType) => {
-
-    let [taskTitle, setTaskTitle] = useState("");
-    let [error, setError] = useState<string | null>(null);
-
-    const addTaskHandler = (title: string) => {
-        if (title.trim() !== "") {
-            props.addTask(title.trim(), props.todoList_ID);
-            setTaskTitle("");
-        } else {
-            setError("Invalid input");
-        }
-    }
-
-    const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        let taskValue = event.currentTarget.value;
-        setTaskTitle(taskValue);
-        setError(null)
-    }
 
     const removeTaskHandler = (id: string) => {
         props.removeTask(id, props.todoList_ID);
@@ -54,27 +40,33 @@ const TodoList = (props: TodoListPropsType) => {
     }
 
     const onDeleteHandler = () => {
-      props.deleteList(props.todoList_ID);
+        props.deleteList(props.todoList_ID);
+    }
+
+    const addTask = (title: string) => {
+        props.addTask(title, props.todoList_ID);
+    }
+
+    const changeListTitle = (title: string) => {
+        props.changeListTitle(title, props.todoList_ID);
     }
 
     return (
         <div>
-            <Button name={"Delete list"} callback={onDeleteHandler} />
-            <h3>{props.title}</h3>
-            <div>
-                <input value={taskTitle} onChange={onChangeInputHandler}
-                       onKeyDown={(event) => {
-                           if (event.key === "Enter") addTaskHandler(taskTitle);
-                       }}/>
-                <Button name={"+"} callback={() => addTaskHandler(taskTitle)}/>
-            </div>
+            <Button name={"Delete list"} callback={onDeleteHandler}/>
+            <h3><EditableText text={props.title.toString()} callBack={changeListTitle} /></h3>
+            <AddItemForm addItem={addTask}/>
             <ul>
                 {props.tasks.map(element => {
+                    const changeTaskTitle = (title: string) => {
+                        props.changeTaskTitle(title, element.id, props.todoList_ID)
+                    }
+
                     return (
                         <li key={element.id} className={element.isDone ? "is-done" : ""}>
                             <input type="checkbox" checked={element.isDone}
                                    onChange={(event) => onChangeCheckboxHandler(event, element.id)}/>
-                            <span>{element.title}</span>
+                            <EditableText text={element.title} callBack={changeTaskTitle}/>
                             <Button name={"Delete"} callback={() => removeTaskHandler(element.id)}/>
                         </li>
                     )

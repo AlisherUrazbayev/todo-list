@@ -9,9 +9,10 @@
 
 .error {
   border: red 1px solid;
+  background: aqua;
 }
 
-.error-message {
+.errorMessage {
   color: red;
 }
 
