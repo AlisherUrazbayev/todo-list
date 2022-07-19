@@ -1,9 +1,9 @@
-.App {
+.lists {
   padding: 30px;
   display: flex;
 }
 
-.App > div {
+.lists > div {
   margin-right: 50px;
 }
 

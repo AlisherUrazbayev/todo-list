@@ -1,6 +1,6 @@
 import React, {useState, ChangeEvent} from 'react';
-import Button from "./Button";
 import '../App.css';
+import {Button, TextField} from "@mui/material";
 
 type AddItemFormPropsType = {
     addItem: (item: string) => void
@@ -27,14 +27,19 @@ const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
 
     return (
         <div>
-            <input value={text} onChange={onChangeInputHandler}
-                   onKeyDown={(event) => {
-                       if (event.key === "Enter") submitHandler(text);
-                   }}
-                   className={error ? ".error" : ""}
+            <TextField id="outlined-basic" label={error} variant="outlined" size="small"
+                       value={text} onChange={onChangeInputHandler}
+                       onKeyDown={(event) => {
+                           if (event.key === "Enter") submitHandler(text);
+                       }} error={!!error}
             />
-            <Button name={"+"} callback={() => submitHandler(text)}/>
-            {error && <div className={".errorMessage"}>{error}</div>}
+
+            <Button variant="contained" color="primary" size="small"
+                    style={{
+                        maxWidth: '40px', maxHeight: '40px', minWidth: '40px',
+                        minHeight: '40px', marginLeft: '10px'
+                    }}
+                    onClick={() => submitHandler(text)}>+</Button>
         </div>
     );
 };

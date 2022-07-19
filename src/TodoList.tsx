@@ -1,8 +1,9 @@
 import React, {ChangeEvent} from "react";
-import Button from "./components/Button";
 import {FilterValueTypes} from "./App";
 import AddItemForm from "./components/AddItemForm";
 import EditableText from "./components/EditableText";
+import {Button, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 
 type TodoListPropsType = {
@@ -53,8 +54,12 @@ const TodoList = (props: TodoListPropsType) => {
 
     return (
         <div>
-            <Button name={"Delete list"} callback={onDeleteHandler}/>
-            <h3><EditableText text={props.title.toString()} callBack={changeListTitle} /></h3>
+            <h3>
+                <EditableText text={props.title.toString()} callBack={changeListTitle}/>
+                <IconButton aria-label="delete">
+                    <Delete onClick={onDeleteHandler}/>
+                </IconButton>
+            </h3>
             <AddItemForm addItem={addTask}/>
             <ul>
                 {props.tasks.map(element => {
@@ -67,24 +72,23 @@ const TodoList = (props: TodoListPropsType) => {
                             <input type="checkbox" checked={element.isDone}
                                    onChange={(event) => onChangeCheckboxHandler(event, element.id)}/>
                             <EditableText text={element.title} callBack={changeTaskTitle}/>
-                            <Button name={"Delete"} callback={() => removeTaskHandler(element.id)}/>
+                            <IconButton aria-label="delete">
+                                <Delete onClick={() => removeTaskHandler(element.id)}/>
+                            </IconButton>
                         </li>
                     )
                 })}
             </ul>
             <div>
-                <Button name={"All"}
-                        callback={() => changeFilterHandler("all")}
-                        styler={props.filter === "all" ? "active-filter" : ""}
-                />
-                <Button name={"Active"}
-                        callback={() => changeFilterHandler("active")}
-                        styler={props.filter === "active" ? "active-filter" : ""}
-                />
-                <Button name={"Completed"}
-                        callback={() => changeFilterHandler("completed")}
-                        styler={props.filter === "completed" ? "active-filter" : ""}
-                />
+                <Button variant={props.filter === "all" ? "contained" : "outlined"} color="secondary" size="small"
+                        onClick={() => changeFilterHandler("all")} style={{marginRight: '10px'}}
+                >All</Button>
+                <Button variant={props.filter === "active" ? "contained" : "outlined"} color="success" size="small"
+                        onClick={() => changeFilterHandler("active")} style={{marginRight: '10px'}}
+                >Active</Button>
+                <Button variant={props.filter === "completed" ? "contained" : "outlined"} color="error" size="small"
+                        onClick={() => changeFilterHandler("completed")} style={{marginRight: '10px'}}
+                >Completed</Button>
             </div>
         </div>
     );

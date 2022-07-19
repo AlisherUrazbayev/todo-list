@@ -11,6 +11,7 @@ const Button = (props: ButtonPropsType) => {
         props.callback();
     }
     return (
+
         <button className={props.styler} onClick={onClickHandler}>{props.name}</button>
     )
 }

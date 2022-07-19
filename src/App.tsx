@@ -3,6 +3,7 @@ import './App.css';
 import TodoList, {TaskType} from "./TodoList";
 import {v1} from "uuid";
 import AddItemForm from "./components/AddItemForm";
+import ButtonAppBar from "./components/ButtonAppBar";
 
 export type FilterValueTypes = "all" | "active" | "completed";
 
@@ -110,9 +111,10 @@ function App() {
 
     return (
         <div className="App">
-            AddList
-            <AddItemForm addItem={addList}/>
-            {todoListsComponent}
+            <ButtonAppBar addItem={addList}/>
+            <div className="lists">
+                {todoListsComponent}
+            </div>
         </div>
     );
 }
