@@ -61,24 +61,24 @@ const TodoList = (props: TodoListPropsType) => {
                 </IconButton>
             </h3>
             <AddItemForm addItem={addTask}/>
-            <ul>
+            <div>
                 {props.tasks.map(element => {
                     const changeTaskTitle = (title: string) => {
                         props.changeTaskTitle(title, element.id, props.todoList_ID)
                     }
 
                     return (
-                        <li key={element.id} className={element.isDone ? "is-done" : ""}>
+                        <div key={element.id} className={element.isDone ? "is-done" : ""}>
                             <input type="checkbox" checked={element.isDone}
                                    onChange={(event) => onChangeCheckboxHandler(event, element.id)}/>
                             <EditableText text={element.title} callBack={changeTaskTitle}/>
                             <IconButton aria-label="delete">
                                 <Delete onClick={() => removeTaskHandler(element.id)}/>
                             </IconButton>
-                        </li>
+                        </div>
                     )
                 })}
-            </ul>
+            </div>
             <div>
                 <Button variant={props.filter === "all" ? "contained" : "outlined"} color="secondary" size="small"
                         onClick={() => changeFilterHandler("all")} style={{marginRight: '10px'}}

@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import AddItemForm from "./AddItemForm";
+
 
 export default function ButtonAppBar(props: any) {
     return (
@@ -25,7 +25,6 @@ export default function ButtonAppBar(props: any) {
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         News
                     </Typography>
-                    <AddItemForm addItem={props.addItem} />
                     <Button color="inherit">Add List</Button>
                 </Toolbar>
             </AppBar>
