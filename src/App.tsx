@@ -8,7 +8,7 @@ import {Container, Grid, Paper} from "@mui/material";
 
 export type FilterValueTypes = "all" | "active" | "completed";
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValueTypes
@@ -82,17 +82,17 @@ function App() {
 
     const deleteList = (id: string) => {
         setTodoLists(todoLists.filter(el => el.id !== id));
-    }
+    } //made reducer
 
     const addList = (title: string) => {
         const todoList_ID = v1();
         setTodoLists([{id: todoList_ID, title, filter: "all"}, ...todoLists]);
         setTasks({[todoList_ID]: [], ...tasks});
-    }
+    } //made reducer
 
     const changeListTitle = (title: string, todoList_ID: string) => {
         setTodoLists(todoLists.map(list => list.id === todoList_ID ? {...list, title} : list));
-    }
+    } //made reducer
 
     const todoListsComponent = todoLists.map((tl) => {
         let filteredTasks = tasks[tl.id];
