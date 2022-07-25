@@ -49,12 +49,12 @@ function App() {
                 return task.id !== id;
             })
         });
-    }
+    } //made reducer
 
     const addTask = (title: string, todoList_ID: string) => {
         const newTask = {id: v1(), title, isDone: false};
         setTasks({...tasks, [todoList_ID]: [newTask, ...tasks[todoList_ID]]});
-    }
+    } //made reducer
 
     const changeTaskTitle = (title: string, id: string, todoList_ID: string) => {
         setTasks({
@@ -62,7 +62,7 @@ function App() {
                 return task.id === id ? {...task, title} : task;
             })
         })
-    }
+    } //made reducer
 
     const changeTaskStatus = (status: boolean, id: string, todoList_ID: string) => {
         setTasks({
@@ -74,11 +74,11 @@ function App() {
                 }
             })
         })
-    }
+    }  //made reducer
 
     const changeFilter = (filter: FilterValueTypes, todoList_ID: string) => {
         setTodoLists(todoLists.map(tl => tl.id === todoList_ID ? {...tl, filter} : tl));
-    }
+    }  //made reducer
 
     const deleteList = (id: string) => {
         setTodoLists(todoLists.filter(el => el.id !== id));
