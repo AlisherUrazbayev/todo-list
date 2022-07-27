@@ -23,7 +23,7 @@ export default function ButtonAppBar(props: any) {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        News
+                        TODO List
                     </Typography>
                     <Button color="inherit">Add List</Button>
                 </Toolbar>
