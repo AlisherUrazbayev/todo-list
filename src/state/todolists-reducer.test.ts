@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {useState} from "react";
 import {FilterValueTypes, TodoListType} from "../App";
-import {addListAC, changeFilterAC, removeListAC, renameListAC, todolistsReducer} from "./todolists-reducer";
+import {addTodolistAC, changeFilterAC, removeListAC, renameListAC, todolistsReducer} from "./todolists-reducer";
 
 test("Correct todolist should be removed", ()=> {
     const todoList_ID1 = v1();
@@ -30,7 +30,7 @@ test("Correct todolist should be added", ()=> {
         {id: todoList_ID2, title: "What to eat", filter: "all"}
     ];
 
-    const endState = todolistsReducer(initialState, addListAC(newTitle));
+    const endState = todolistsReducer(initialState, addTodolistAC(newTitle));
 
     expect(endState.length).toBe(3);
     expect(endState[2].filter).toBe("all");

@@ -1,5 +1,6 @@
-import {TasksListType} from "../App";
+import {TasksListType, TodoListType} from "../App";
 import {v1} from "uuid";
+import {AddListActionType} from "./todolists-reducer";
 
 export type RemoveTaskActionType = {
     type: "REMOVE-TASK"
@@ -27,7 +28,8 @@ export type ChangeTaskStatusActionType = {
     status: boolean
 }
 
-type ActionsType = RemoveTaskActionType | AddTaskActionType | ChangeTaskTitleActionType | ChangeTaskStatusActionType;
+type ActionsType = RemoveTaskActionType | AddTaskActionType | ChangeTaskTitleActionType | ChangeTaskStatusActionType |
+    AddListActionType;
 
 
 export const tasksReducer = (state: TasksListType, action: ActionsType): TasksListType => {
@@ -46,6 +48,8 @@ export const tasksReducer = (state: TasksListType, action: ActionsType): TasksLi
             return {...state, [action.listId]: state[action.listId].map((task) => {
                 return action.taskId === task.id ? {...task, isDone: action.status} : task;
                 })}
+        case "ADD-LIST":
+            return {...state, [action.id]: []}
         default:
             throw new Error("Something went wrong!");
     }
