@@ -3,14 +3,21 @@ import {useState} from "react";
 import {FilterValueTypes, TodoListType} from "../App";
 import {addTodolistAC, changeFilterAC, removeListAC, renameListAC, todolistsReducer} from "./todolists-reducer";
 
-test("Correct todolist should be removed", ()=> {
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
+let todoList_ID1: string;
+let todoList_ID2: string;
+let initialState: TodoListType[];
 
-    const initialState: TodoListType[] = [
+beforeEach(() => {
+    todoList_ID1 = v1();
+    todoList_ID2 = v1();
+
+    initialState = [
         {id: todoList_ID1, title: "What to learn", filter: "all"},
         {id: todoList_ID2, title: "What to eat", filter: "all"}
     ];
+})
+
+test("Correct todolist should be removed", ()=> {
 
     const endState = todolistsReducer(initialState, removeListAC(todoList_ID1));
 
@@ -20,15 +27,8 @@ test("Correct todolist should be removed", ()=> {
 });
 
 test("Correct todolist should be added", ()=> {
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
 
     const newTitle = "New TODO List";
-
-    const initialState: TodoListType[] = [
-        {id: todoList_ID1, title: "What to learn", filter: "all"},
-        {id: todoList_ID2, title: "What to eat", filter: "all"}
-    ];
 
     const endState = todolistsReducer(initialState, addTodolistAC(newTitle));
 
@@ -39,15 +39,8 @@ test("Correct todolist should be added", ()=> {
 });
 
 test("Title should be renamed for correct list", ()=> {
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
 
     const newTitle = "New TODO List";
-
-    const initialState: TodoListType[] = [
-        {id: todoList_ID1, title: "What to learn", filter: "all"},
-        {id: todoList_ID2, title: "What to eat", filter: "all"}
-    ];
 
     const endState = todolistsReducer(initialState, renameListAC(todoList_ID2, newTitle));
 
@@ -57,15 +50,8 @@ test("Title should be renamed for correct list", ()=> {
 });
 
 test("Filter should be changed for correct list", ()=> {
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
 
     const newFilter: FilterValueTypes = 'active';
-
-    const initialState: TodoListType[] = [
-        {id: todoList_ID1, title: "What to learn", filter: "all"},
-        {id: todoList_ID2, title: "What to eat", filter: "all"}
-    ];
 
     const endState = todolistsReducer(initialState, changeFilterAC(todoList_ID2,newFilter));
 
