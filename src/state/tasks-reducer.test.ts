@@ -11,13 +11,17 @@ import {
 import App from "../App";
 import {addTodolistAC} from "./todolists-reducer";
 
-test("Correct task should be removed", () => {
+let todoList_ID1: string;
+let todoList_ID2: string;
+let taskId1: string;
+let initialState: TasksListType;
 
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
-    const taskId1 = v1();
+beforeEach(() => {
+    todoList_ID1 = v1();
+    todoList_ID2 = v1();
+    taskId1 = v1();
 
-    const initialState = {
+    initialState = {
         [todoList_ID1]: [
             {id: taskId1, title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -31,6 +35,9 @@ test("Correct task should be removed", () => {
             {id: v1(), title: "Winner Schnitzel", isDone: false}
         ]
     }
+})
+
+test("Correct task should be removed", () => {
 
     const finalState = tasksReducer(initialState, removeTaskAC(taskId1,  todoList_ID1));
 
@@ -40,25 +47,7 @@ test("Correct task should be removed", () => {
 
 test("Correct task should be removed", () => {
 
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
-
     const newTitle = "Java";
-
-    const initialState = {
-        [todoList_ID1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Angular", isDone: false}
-        ],
-        [todoList_ID2]: [
-            {id: v1(), title: "Burger", isDone: true},
-            {id: v1(), title: "Nachos", isDone: true},
-            {id: v1(), title: "Fish & Chips", isDone: false},
-            {id: v1(), title: "Winner Schnitzel", isDone: false}
-        ]
-    }
 
     const action: AddTaskActionType = addTaskAC(newTitle, todoList_ID1);
 
@@ -70,28 +59,9 @@ test("Correct task should be removed", () => {
 
 test("Correct task title should be changed", () => {
 
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
-
     const newTitle = "Java";
-    const taskId = v1();
 
-    const initialState = {
-        [todoList_ID1]: [
-            {id: taskId, title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Angular", isDone: false}
-        ],
-        [todoList_ID2]: [
-            {id: v1(), title: "Burger", isDone: true},
-            {id: v1(), title: "Nachos", isDone: true},
-            {id: v1(), title: "Fish & Chips", isDone: false},
-            {id: v1(), title: "Winner Schnitzel", isDone: false}
-        ]
-    }
-
-    const action: ChangeTaskTitleActionType = changeTaskTitleAC(newTitle, taskId, todoList_ID1);
+    const action: ChangeTaskTitleActionType = changeTaskTitleAC(newTitle, taskId1, todoList_ID1);
 
     const endState = tasksReducer(initialState, action);
 
@@ -101,28 +71,9 @@ test("Correct task title should be changed", () => {
 
 test("Correct task status should be changed", () => {
 
-    const todoList_ID1 = v1();
-    const todoList_ID2 = v1();
-
-    const taskId = v1();
     const newStatus = false;
 
-    const initialState = {
-        [todoList_ID1]: [
-            {id: taskId, title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Angular", isDone: false}
-        ],
-        [todoList_ID2]: [
-            {id: v1(), title: "Burger", isDone: true},
-            {id: v1(), title: "Nachos", isDone: true},
-            {id: v1(), title: "Fish & Chips", isDone: false},
-            {id: v1(), title: "Winner Schnitzel", isDone: false}
-        ]
-    }
-
-    const action: ChangeTaskStatusActionType = changeTaskStatusAC(newStatus, todoList_ID1, taskId);
+    const action: ChangeTaskStatusActionType = changeTaskStatusAC(newStatus, todoList_ID1, taskId1);
 
     const endState = tasksReducer(initialState, action);
 
@@ -131,23 +82,10 @@ test("Correct task status should be changed", () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-    const startState: TasksListType = {
-        'todolistId1': [
-            {id: '1', title: 'CSS', isDone: false},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'React', isDone: false}
-        ],
-        'todolistId2': [
-            {id: '1', title: 'bread', isDone: false},
-            {id: '2', title: 'milk', isDone: true},
-            {id: '3', title: 'tea', isDone: false}
-        ]
-    }
 
     const action = addTodolistAC('new todolist')
 
-    const endState = tasksReducer(startState, action)
-
+    const endState = tasksReducer(initialState, action)
 
     const keys = Object.keys(endState)
     const newKey = keys.find(k => k != 'todolistId1' && k != 'todolistId2')
