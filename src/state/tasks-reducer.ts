@@ -31,8 +31,9 @@ export type ChangeTaskStatusActionType = {
 type ActionsType = RemoveTaskActionType | AddTaskActionType | ChangeTaskTitleActionType | ChangeTaskStatusActionType |
     AddListActionType | RemoveListActionType;
 
+const initialState: TasksListType = {};
 
-export const tasksReducer = (state: TasksListType, action: ActionsType): TasksListType => {
+export const tasksReducer = (state: TasksListType = initialState, action: ActionsType): TasksListType => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {...state, [action.todoListId]: state[action.todoListId].filter((task) => {
@@ -55,7 +56,7 @@ export const tasksReducer = (state: TasksListType, action: ActionsType): TasksLi
             delete stateCopy[action.id];
             return stateCopy;
         default:
-            throw new Error("Something went wrong!");
+            return {...state};
     }
 }
 
