@@ -28,6 +28,8 @@ export type TaskType = {
 
 const TodoList = (props: TodoListPropsType) => {
 
+    console.log("Todolist called");
+
     const removeTaskHandler = (id: string) => {
         props.removeTask(id, props.todoList_ID);
     }
@@ -94,4 +96,4 @@ const TodoList = (props: TodoListPropsType) => {
     );
 }
 
-export default TodoList;
+export default React.memo(TodoList);

@@ -6,14 +6,16 @@ type AddItemFormPropsType = {
     addItem: (item: string) => void
 }
 
-const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
+const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(({addItem}) => {
+
+    console.log("AddItemForm");
 
     let [text, setText] = useState<string>("");
     let [error, setError] = useState<string | null>(null);
 
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setText(event.currentTarget.value);
-        setError(null);
+        error !== null && setError(null);
     }
 
     const submitHandler = (text: string) => {
@@ -42,6 +44,6 @@ const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
                     onClick={() => submitHandler(text)}>+</Button>
         </div>
     );
-};
+});
 
 export default AddItemForm;
